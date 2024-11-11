@@ -1,1 +1,1 @@
-Learning about poses in XR!
+Learning unity essentials!
