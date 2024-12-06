@@ -1,1 +1,0 @@
-Slingshot game in Unity!
