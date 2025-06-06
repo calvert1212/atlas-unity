@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: bb5bfd4ec1327ab419add78490bcceb2
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - projectilePrefab: {fileID: 2837855677952747060, guid: 86c9e88fd92a65f4aaa9575a4928bbaa,
+      type: 3}
+  - launchPoint: {instanceID: 0}
+  - trajectoryLine: {instanceID: 0}
+  - arCamera: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

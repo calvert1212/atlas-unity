@@ -1,34 +1,44 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.XR.ARFoundation;
 using UnityEngine.XR.ARSubsystems;
-using UnityEngine.UI;
-using System.Collections.Generic;
 
-public class PlaneSelector : MonoBehaviour
+public class PlaneSelectionManager : MonoBehaviour
 {
-    public ARRaycastManager raycastManager;
-    public GameObject startButtonPrefab;
+    public static ARPlane selectedPlane;
+    public GameObject startButton;
 
-    private GameObject placedButton;
-    private bool planeSelected = false;
+    private ARPlaneManager planeManager;
+    private ARRaycastManager raycastManager;
 
-    static List<ARRaycastHit> hits = new();
+    void Start()
+    {
+        planeManager = GetComponent<ARPlaneManager>();
+        raycastManager = GetComponent<ARRaycastManager>();
+    }
 
     void Update()
     {
-        if (planeSelected || Input.touchCount == 0)
-            return;
+        if (selectedPlane != null) return;
 
-        Touch touch = Input.GetTouch(0);
-        if (touch.phase != TouchPhase.Began)
-            return;
-
-        if (raycastManager.Raycast(touch.position, hits, TrackableType.PlaneWithinPolygon))
+        if (Input.touchCount == 1 && Input.GetTouch(0).phase == TouchPhase.Ended)
         {
-            Pose hitPose = hits[0].pose;
+            List<ARRaycastHit> hits = new List<ARRaycastHit>();
+            raycastManager.Raycast(Input.GetTouch(0).position, hits, TrackableType.PlaneWithinPolygon);
 
-            placedButton = Instantiate(startButtonPrefab, hitPose.position, hitPose.rotation);
-            planeSelected = true;
+            if (hits.Count > 0)
+            {
+                var plane = planeManager.GetPlane(hits[0].trackableId);
+                selectedPlane = plane;
+
+                foreach (var p in planeManager.trackables)
+                {
+                    if (p != selectedPlane) p.gameObject.SetActive(false);
+                }
+
+                planeManager.enabled = false;
+                startButton.SetActive(true);
+            }
         }
     }
 }
