@@ -48,7 +48,10 @@ public class MultiPointGrab : UnityEngine.XR.Interaction.Toolkit.Interactables.X
 
     protected override void OnSelectExited(SelectExitEventArgs args)
     {
-        if (args.interactorObject == secondInteractor)
+        if ((UnityEngine.Object)args.interactorObject != (UnityEngine.Object)secondInteractor)
+        {
+        }
+        else
         {
             secondInteractor = null;
         }
